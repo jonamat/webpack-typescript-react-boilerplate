@@ -4,8 +4,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const workboxPlugin = require('workbox-webpack-plugin');
-// const Visualizer = require('webpack-visualizer-plugin2');
-// const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const { BundleStatsWebpackPlugin } = require('bundle-stats-webpack-plugin');
+
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 
@@ -77,15 +77,9 @@ module.exports = merge(common, {
             ],
         }),
 
-        // Generate bundle statistics
-        // new StatsWriterPlugin({
-        //     filename: path.join('..', 'build_stats', 'logs.json'),
-        //     fields: null,
-        //     stats: { chunkModules: true },
-        // }),
-        // new Visualizer({
-        //     filename: path.join('..', 'build_stats', 'build_stats.html'),
-        // }),
+        new BundleStatsWebpackPlugin({
+            outDir: '../stats/'
+        })
 
         // Generate service worker and define runtime caching
         // new workboxPlugin.GenerateSW({
