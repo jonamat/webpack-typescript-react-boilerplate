@@ -3,8 +3,6 @@ const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-const ESLintPlugin = require('eslint-webpack-plugin');
-
 
 const common = require('./webpack.common');
 
@@ -30,8 +28,6 @@ module.exports = merge(common, {
     mode: 'development',
     devtool: 'source-map',
     plugins: [
-        new ESLintPlugin(),
-
         // Override process.env with custom vars defined in .env
         new webpack.DefinePlugin(
             Object.fromEntries(

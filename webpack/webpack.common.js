@@ -1,20 +1,11 @@
 const path = require('path');
-// const ESLintPlugin = require('eslint-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, '..', 'src', 'index.tsx'),
     resolve: { extensions: ['.ts', '.tsx', '.js', 'jsx'] },
     module: {
         rules: [
-        // {
-        //     test: /\.tsx?$/,
-        //     exclude: /node_modules/,
-        //     enforce: 'pre',
-        //     loader: 'eslint-loader',
-        //     options: {
-        //         eslintPath: 'eslint',
-        //     },
-        // },
         // {
         //     test: /\.woff2$/i,
         //     use: {
@@ -50,6 +41,8 @@ module.exports = {
     },
 
     plugins: [
-        // new ESLintPlugin()
+        new ESLintPlugin({
+            extensions: ['ts', 'tsx'],
+          }),
     ],
 };
