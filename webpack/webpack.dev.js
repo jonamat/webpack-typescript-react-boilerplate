@@ -53,6 +53,8 @@ module.exports = merge(common, {
         compress: false,
         historyApiFallback: true,
         host: '0.0.0.0',
+        open: true,
+        hot: true,
         port: 3000,
         client: {
             progress: true,

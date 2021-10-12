@@ -6,7 +6,7 @@
   "author": "Jonathan Mataloni <jo.mataloni@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack serve --config ./webpack/webpack.dev.js --open",
+    "start": "webpack serve --config ./webpack/webpack.dev.js",
     "build": "webpack --config ./webpack/webpack.prod.js",
     "lint": "eslint --ext .ts,.tsx ./",
     "lint:fix": "eslint --fix --ext .ts,.tsx ./"
