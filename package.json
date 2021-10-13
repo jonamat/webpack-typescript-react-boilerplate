@@ -1,8 +1,7 @@
 {
-  "name": "metaface-widget",
+  "name": "webpack-typescript-react-boilerplate",
   "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "https://github.com/metadonors/metaface-widget.git",
   "author": "Jonathan Mataloni <jo.mataloni@gmail.com>",
   "license": "MIT",
   "scripts": {
