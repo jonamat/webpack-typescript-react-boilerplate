@@ -3,36 +3,40 @@ const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
-
 const common = require('./webpack.common');
 
-const rules = [
-    {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-            loader: 'babel-loader',
-            options: {
-                comments: true, // Preserve webpack config comments
-                sourceMaps: true,
-                presets: ['@babel/preset-env', '@babel/react', '@babel/typescript'],
-                plugins: [
-                    'babel-plugin-typescript-to-proptypes', // transform static to runtime type checking
-                ],
-            },
-        },
-    },
-];
+const envs = dotenv.config({ debug: true, path: path.resolve(__dirname, '..', '.env') }).parsed
 
 module.exports = merge(common, {
     mode: 'development',
-    devtool: 'source-map',
+    devtool: 'eval-cheap-module-source-map',
+
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        comments: true, // Preserve webpack config comments
+                        sourceMaps: true,
+                        presets: ['@babel/preset-env', '@babel/react', '@babel/typescript'],
+                        plugins: [
+                            '@babel/plugin-transform-runtime',
+                            'babel-plugin-typescript-to-proptypes', // transform static to runtime type checking
+                        ],
+                    },
+                },
+            },
+        ]
+    },
     plugins: [
         // Override process.env with custom vars defined in .env
         new webpack.DefinePlugin(
             Object.fromEntries(
                 Object.entries({
-                    ...dotenv.config({ debug: true, path: path.resolve(__dirname, '..', '.env') }).parsed,
+                    ...envs,
                     NODE_ENV: 'development',
                 }).map(([key, value]) => ['process.env.' + key, JSON.stringify(value)]),
             ),
@@ -47,18 +51,23 @@ module.exports = merge(common, {
             minify: false,
         }),
     ],
-    module: { rules },
+
+
     devServer: {
         static: path.resolve(__dirname, '../', 'public'),
         compress: false,
         historyApiFallback: true,
-        host: '0.0.0.0',
-        open: true,
-        hot: true,
-        port: 3000,
+        host: 'localhost', // Set to 0.0.0.0 for external access
+        open: ['/index.html'],
+        watchFiles: ['src/**/*', 'public/**/*'],
+        port: envs.PORT,
         client: {
             progress: true,
-            overlay: true,
+            logging: 'warn',
+            overlay: {
+                errors: true,
+                warnings: false,
+            },
         },
     },
 });
